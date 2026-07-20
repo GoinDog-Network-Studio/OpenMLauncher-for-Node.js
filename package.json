@@ -26,5 +26,6 @@
   "devDependencies": {
     "open": "^11.0.0",
     "opn": "^5.5.0"
-  }
+  },
+  "bundledDependencies": true
 }
