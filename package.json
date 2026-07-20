@@ -1,0 +1,30 @@
+{
+  "name": "openmlauncher",
+  "version": "1.0.0",
+  "description": "An Open-Source Library that provide some method about Minecraft launcher.(Without UI, just APIs)",
+  "license": "MIT",
+  "author": "GoinDog Network Studio",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js --gameDir M:/ --configDir M:/.oml"
+  },
+  "dependencies": {
+    "@webviewjs/webview": "^0.4.0",
+    "clipboardy": "^5.3.1",
+    "download-file": "^0.1.5",
+    "express": "^5.2.1",
+    "jdk-utils": "^0.7.0",
+    "readline": "^1.3.0",
+    "sync-request": "^6.1.0",
+    "systeminformation": "^5.32.0",
+    "temurin-jdk-downloader": "^1.0.0",
+    "unzipper": "^0.12.5",
+    "webview-nodejs": "^0.5.0",
+    "xmlhttprequest": "^1.8.0"
+  },
+  "devDependencies": {
+    "open": "^11.0.0",
+    "opn": "^5.5.0"
+  }
+}
