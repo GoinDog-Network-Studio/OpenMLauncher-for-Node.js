@@ -4,7 +4,7 @@ A library that provides functions to manage your Minecraft game. With window app
 ## Installation
 To Install, you just input the following command at the root of your Node.js project.
 
-    npm i openmlauncher
+    npm i @goindog-network-studio/openmlauncher
 
 ## Environment Variables
 `gameDir` - The directory that storage game files.
@@ -12,6 +12,7 @@ To Install, you just input the following command at the root of your Node.js pro
 `configDir` - The directory that save OpenMLauncher configs.
 
 ## APIs
+### Common Objects
 `oml.Game` - Download, install and launch any-version Minecraft.
 
 `oml.Account` - Manage accounts that provides to log-in Minecraft.
@@ -47,11 +48,28 @@ Before you use the following function, specifies one logging-in mode. We provide
 
 
 User data will be saved at `${configDir}/.oml/user.config` through encoding.
+### Custom Launch Parameters Setting
+Use `oml.Game.Launch(name, client_id, options?)` to launch any-version Minecraft that is installed on your computer. 
+
+`options` is an object that contains these custom settings:
+
+    options = {
+        custom_params: {
+            game: {},
+            jvm: {}
+        },
+        refresh_user: true
+    }
+
+The object `custom_params` define parameters that will be used during launching Minecraft. It storages through key-value couple.
+For example, if you want to set window size, you can add `"--width": 480` and `"--height": 480` in `options.custom_params.game`.
+
+**ATTENTION**  `custom_params` doesn't support overwriting parameters that exists in ``<version>.json``
+
+The parameter `refresh_user` decides that user will or not refresh its access token. If true, the parameter `client_id` is required.
 
 ## Features
 ### Mods Support
 [ This paragraph doesn't stands for ideas of Mojang Studios and Microsoft ]
 * Add support for Mod loaders 
 * Add manager for Mods
-### Game Support
-* Advanced Settings [ custom window size, auto enter server...... ]

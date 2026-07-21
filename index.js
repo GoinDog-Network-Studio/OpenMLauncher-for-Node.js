@@ -330,7 +330,7 @@ const oml = {
         NeoForge: {
 
         },
-        Launch: (name, client_id) => {
+        Launch: (name, client_id = "", options = { custom_params: { game: {}, jvm: {} }, refresh_user: true }) => {
             let launch_command = ''
 
             const version_dir = oml.Direction.gameDir + `/versions/${name}/`
@@ -353,6 +353,8 @@ const oml = {
                     const isWindows = process.platform === 'win32';
                     const executableName = isWindows ? 'java.exe' : 'java';
                     const javaPath = path.join(javaHome, 'bin', executableName);
+                    const custom_jvm_parameter_keys = Object.keys(options.custom_params.jvm);
+                    const custom_game_parameter_keys = Object.keys(options.custom_params.game);
 
                     launch_command += `"${javaPath}"`;
                     //Unzip native files.
@@ -410,7 +412,11 @@ const oml = {
 
                     });
 
-                    launch_command += ` ${manifest['mainClass']}`
+                    
+
+                    const custom_jvm_parameters = custom_jvm_parameter_keys.filter(k => launch_command.indexOf(k) == -1).map(k => `"${k}=${options.custom_params.jvm[k]}"`).join(" ")
+
+                    launch_command += ` ${custom_game_parameters} ${manifest['mainClass']}`
 
                     launch_arguments_game.forEach(arg => {
                         switch (typeof arg) {
@@ -423,7 +429,7 @@ const oml = {
                         }
                     })
 
-                    oml.Account.refreshAccessToken(client_id);
+                    if (options.refresh_user) oml.Account.refreshAccessToken(client_id);
                     const user = (() => {
                         const index = oml.Account.getSelectedIndex();
                         return oml.Account.list()[index];
@@ -455,6 +461,10 @@ const oml = {
                         .replaceAll("${user_type}", "msa")
                         .replaceAll("${version_type}", `"${launcher_name}"`)
                         .replaceAll("${version_name}", name)
+
+
+                    const custom_game_parameters = custom_game_parameter_keys.filter(k => launch_command.indexOf(k) == -1).map(k => options.custom_params.game[k].indexOf(" ") == -1 ? `${k} ${options.custom_params.game[k]}` : `"${k}" "${options.custom_params.game[k]}"`).join(" ");
+                    real_launch_command = real_launch_command.concat(" ").concat(custom_game_parameters)
 
                     log.info("Launching game " + name);
                     const mc_process = exec(real_launch_command);
@@ -495,6 +505,10 @@ const oml = {
             )['users']
         },
         add: (method, client_id) => {
+            if (client_id.length == 0) {
+                log.error("client_id is required!")
+                return;
+            }
             let user = new User();
             let process;
             if (method == AuthorizationMode.DeviceCode) {
@@ -543,8 +557,8 @@ const oml = {
         },
         remove: (name) => {
             const accounts = oml.Account.list();
-            const filtered = accounts.filter(account => account.uuid !== uuid);
-            writeFileSync(`${oml.Direction.configDir}/users.config`, JSON.stringify(filtered, null, 2));
+            const filtered = accounts.filter(account => account.mc_profile.name !== name);
+            writeFileSync(`${oml.Direction.configDir}/users.config`, Buffer.from(JSON.stringify(filtered, null, 2)).toString("base64"));
         },
         select: (index) => {
             const cfdDir = oml.Direction.configDir;
@@ -563,6 +577,10 @@ const oml = {
             }
         },
         refreshAccessToken: (client_id) => {
+            if (client_id.length == 0) {
+                log.error("client_id is required!")
+                return;
+            }
             const cfdDir = oml.Direction.configDir;
             let source = {
                 users: []
