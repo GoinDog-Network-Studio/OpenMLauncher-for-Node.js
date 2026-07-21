@@ -2,7 +2,7 @@
   "name": "openmlauncher",
   "version": "1.0.0",
   "description": "An Open-Source Library that provide some method about Minecraft launcher.(Without UI, just APIs)",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "author": "GoinDog Network Studio",
   "type": "module",
   "main": "index.js",
