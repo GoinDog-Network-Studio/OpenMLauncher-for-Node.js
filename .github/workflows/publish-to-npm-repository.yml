@@ -16,6 +16,10 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
+      - uses: threeal/cmake-action@v1.3.0  # [reference:23]
+          with:
+            options: |
+              CMAKE_BUILD_TYPE=Release
       - run: npm test
 
   publish-npm:
