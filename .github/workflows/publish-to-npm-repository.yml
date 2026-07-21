@@ -8,7 +8,7 @@ on:
     types: [created]
 
 jobs:
-  build:
+  install:
     runs-on: ubuntu-latest
     steps:
       - run: |
@@ -19,6 +19,11 @@ jobs:
             cmake \
             ninja-build \
             pkg-config
+            
+  build:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
