@@ -11,6 +11,8 @@ jobs:
   install:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
       - run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -29,10 +31,10 @@ jobs:
         with:
           node-version: 24
       - run: npm ci
-      - uses: threeal/cmake-action@v1.3.0  # [reference:23]
-          with:
-            options: |
-              CMAKE_BUILD_TYPE=Release
+      - uses: threeal/cmake-action@v1.3.0
+        with:
+          options: |
+            CMAKE_BUILD_TYPE=Release
       - run: npm test
 
   publish-npm:
