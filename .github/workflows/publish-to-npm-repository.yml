@@ -8,12 +8,14 @@ on:
     types: [created]
   workflow_dispatch:
 
-jobs:
-  install:
+jobs:     
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -23,15 +25,6 @@ jobs:
             cmake \
             ninja-build \
             pkg-config
-            
-  build:
-    needs: install
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
       - run: npm ci
       - uses: threeal/cmake-action@v1.3.0
         with:
