@@ -1,5 +1,5 @@
 # OpenMLauncher
-A library that provides functions to manage your Minecraft game. With window app framework (e.g. Electron) might be more awesome!
+A library that provides functions to manage your Minecraft game. With window app framework (e.g. Electron) might be more awesome! Here is one version which is based on Node.js and is used by Node.js applications.
 
 ## Installation
 To Install, you just input the following command at the root of your Node.js project.
@@ -23,13 +23,12 @@ To Install, you just input the following command at the root of your Node.js pro
 We provides many functions to install and launch games in library.
 ### Get whole Minecraft versions
 
-    import { oml } from 'openmlauncher';
-
+    import { oml } from '@goindog-network-studio/openmlauncher';
     oml.Game.Vanilla.getAllVersions()
 
 ### Install specified version
 
-    import { oml } from 'openmlauncher'
+    import { oml } from '@goindog-network-studio/openmlauncher'
 
     oml.Game.Vanilla.Install(version)
 
@@ -42,7 +41,7 @@ From May 30th 2023 on, Mojang Studios requires 3rd-party Minecraft launcher to a
 
 Before you use the following function, specifies one logging-in mode. We provides `AuthorizationMode.DeviceCode` and `AuthorizationMode.AuthorizationCode`
 
-    import { oml, AuthorizationMode } from 'openmlauncher'
+    import { oml, AuthorizationMode } from '@goindog-network-studio/openmlauncher'
 
     oml.Account.add(method, client_id);
 
@@ -64,12 +63,8 @@ Use `oml.Game.Launch(name, client_id, options?)` to launch any-version Minecraft
 The object `custom_params` define parameters that will be used during launching Minecraft. It storages through key-value couple.
 For example, if you want to set window size, you can add `"--width": 480` and `"--height": 480` in `options.custom_params.game`.
 
-**ATTENTION**  `custom_params` doesn't support overwriting parameters that exists in ``<version>.json``
+**ATTENTION**  `custom_params` doesn't support overwriting parameters that exist in ``<version>.json``
 
 The parameter `refresh_user` decides that user will or not refresh its access token. If true, the parameter `client_id` is required.
-
-## Features
-### Mods Support
-[ This paragraph doesn't stands for ideas of Mojang Studios and Microsoft ]
-* Add support for Mod loaders 
-* Add manager for Mods
+## Using Suggestions
+We recommend to create short-term JRE at the root of Minecraft directory in order to avoid making any mistakes. JDK-Utils library catches one bug is that it couldn't search the whole JREs that exsist on your computer, which cause older versions will throw dependency-repeat exception.
