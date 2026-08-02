@@ -66,5 +66,6 @@ For example, if you want to set window size, you can add `"--width": 480` and `"
 **ATTENTION**  `custom_params` doesn't support overwriting parameters that exist in ``<version>.json``
 
 The parameter `refresh_user` decides that user will or not refresh its access token. If true, the parameter `client_id` is required.
+
 ## Using Suggestions
 We recommend to create short-term JRE at the root of Minecraft directory in order to avoid making any mistakes. JDK-Utils library catches one bug is that it couldn't search the whole JREs that exsist on your computer, which cause older versions will throw dependency-repeat exception.
