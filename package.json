@@ -18,7 +18,7 @@
   },
   "bundledDependencies": true,
   "files": [
-    "index.js"
+    "index.cjs"
   ],
   "bundleDependencies": [
     "adm-zip",

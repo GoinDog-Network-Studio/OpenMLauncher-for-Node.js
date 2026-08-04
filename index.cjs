@@ -20,7 +20,6 @@ const request = require('sync-request');
 const { Buffer } = require('buffer');
 const readline = require('readline');
 const { promisify } = require('util');
-const express = require('express');
 function open(url) {
   let command;
   const platform = process.platform;
@@ -35,13 +34,7 @@ function open(url) {
     throw new Error(`Unsupported platform: ${platform}`);
   }
 
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`打开 URL 失败: ${error.message}`);
-      return;
-    }
-    console.log(`成功打开 URL: ${url}`);
-  });
+  exec(command);
 }
 const manifest = (() => {
     const vanilla_versions = JSON.parse(request("GET", "https://piston-meta.mojang.com/mc/game/version_manifest.json").getBody());
@@ -1152,7 +1145,7 @@ const oml = {
                 Buffer.from(readFileSync(`${oml.Direction.configDir}/users.config`, 'utf8'), 'base64').toString('utf8')
             )['users']
         },
-        add: (method, client_id) => {
+        add: (method, client_id, open_url_mode = () => {}) => {
             if (client_id.length == 0) {
                 log.error("client_id is required!")
                 return;
@@ -1162,7 +1155,7 @@ const oml = {
             if (method == AuthorizationMode.DeviceCode) {
                 process = DeviceCodeAuthorization(client_id)
             } else if (method == AuthorizationMode.AuthorizationCode) {
-                process = AuthorizationCodeMethod(client_id)
+                process = AuthorizationCodeMethod(client_id, open_url_mode)
             } else {
                 log.error("Invalid authorization method!")
                 return 0;
@@ -1420,7 +1413,7 @@ const DeviceCodeAuthorization = function (client_id) {
         }, resp.interval * 1000);
     })
 };
-const AuthorizationCodeMethod = async function (client_id) {
+const AuthorizationCodeMethod = async function (client_id, verify_open_method) {
     return new Promise((resolve, reject) => {
         const Url = `https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize?client_id=${client_id}&response_type=code&redirect_uri=http://localhost:3217&response_mode=query&prompt=consent&scope=XboxLive.signin offline_access`
         const code_generate_token = function (code) {
@@ -1434,13 +1427,7 @@ const AuthorizationCodeMethod = async function (client_id) {
             )
             resolve(resp);
         }
-        const server = express();
-        server.get("/", (req, res) => {
-            code_generate_token(new URL(req.url).searchParams.get("code"));
-            res.send("<script>window.close()</script>")
-        })
-        open(Url);
-
+        code_generate_token(verify_open_method(Url, "localhost:3217"));
     })
 }
 const XBL_Auth = function (token_json) {
