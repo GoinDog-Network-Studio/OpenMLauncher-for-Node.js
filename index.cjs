@@ -14,7 +14,6 @@ const {
   readdirSync
 } = require('fs');
 const clipboard = require('clipboardy');
-const open = require('opn');
 const { exec, execSync, spawn } = require('child_process');
 const AdmZip = require('adm-zip');
 const request = require('sync-request');
@@ -22,6 +21,28 @@ const { Buffer } = require('buffer');
 const readline = require('readline');
 const { promisify } = require('util');
 const express = require('express');
+function open(url) {
+  let command;
+  const platform = process.platform;
+
+  if (platform === 'win32') {
+    command = `start "" "${url}"`;
+  } else if (platform === 'darwin') {
+    command = `open "${url}"`;
+  } else if (platform === 'linux') {
+    command = `xdg-open "${url}"`;
+  } else {
+    throw new Error(`Unsupported platform: ${platform}`);
+  }
+
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`打开 URL 失败: ${error.message}`);
+      return;
+    }
+    console.log(`成功打开 URL: ${url}`);
+  });
+}
 const manifest = (() => {
     const vanilla_versions = JSON.parse(request("GET", "https://piston-meta.mojang.com/mc/game/version_manifest.json").getBody());
 
