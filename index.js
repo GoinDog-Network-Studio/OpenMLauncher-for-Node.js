@@ -1,17 +1,27 @@
-import download from "download-file";
-import { arch, platform, release } from "os";
-import { basename, dirname } from "path";
-import { realpathSync, writeFileSync, readFileSync, existsSync, mkdirSync, writeFile, copyFileSync, rmSync, readdirSync } from "fs";
-import clipboard from "clipboardy";
-import open from "opn";
-import { exec, execSync, spawn } from "child_process";
-import AdmZip from 'adm-zip'
-import request from "sync-request";
-import { Buffer } from "buffer";
-import * as readline from 'readline';
-import { promisify } from "util";
-import path from "path";
-import * as express from "express";
+const download = require('download-file');
+const { arch, platform, release } = require('os');
+const path = require('path');
+const { basename, dirname } = path;
+const {
+  realpathSync,
+  writeFileSync,
+  readFileSync,
+  existsSync,
+  mkdirSync,
+  writeFile,
+  copyFileSync,
+  rmSync,
+  readdirSync
+} = require('fs');
+const clipboard = require('clipboardy');
+const open = require('opn');
+const { exec, execSync, spawn } = require('child_process');
+const AdmZip = require('adm-zip');
+const request = require('sync-request');
+const { Buffer } = require('buffer');
+const readline = require('readline');
+const { promisify } = require('util');
+const express = require('express');
 const manifest = (() => {
     const vanilla_versions = JSON.parse(request("GET", "https://piston-meta.mojang.com/mc/game/version_manifest.json").getBody());
 
