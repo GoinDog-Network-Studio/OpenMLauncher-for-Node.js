@@ -5,7 +5,7 @@
   "license": "GPL-3.0-only",
   "author": "GoinDog Network Studio",
   "type": "module",
-  "main": "index.js",
+  "main": "index.cjs",
   "scripts": {
     "test": "node test.js --gameDir M:/ --configDir M:/.oml"
   },
