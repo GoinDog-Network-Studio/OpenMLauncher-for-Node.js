@@ -1,6 +1,6 @@
 {
   "name": "@goindog-network-studio/openmlauncher",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "An Open-Source Library that provide some method about Minecraft launcher.(Without UI, just APIs)",
   "license": "GPL-3.0-only",
   "author": "GoinDog Network Studio",

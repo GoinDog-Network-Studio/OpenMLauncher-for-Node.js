@@ -1515,4 +1515,4 @@ const getProfile = (access_token) => {
     }
     return result;
 }
-export { oml, AuthorizationMode };
+module.exports = { oml, AuthorizationMode };
