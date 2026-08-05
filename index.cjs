@@ -282,12 +282,6 @@ const oml = {
             getAllVersions: function () {
                 return getManifest()['versions'];
             },
-            LATEST_RELEASE: (() => {
-                return getManifest()['latest']['release'];
-            })(),
-            LATEST_SNAPSHOT: (() => {
-                return getManifest()['latest']['snapshot'];
-            })(),
             Install: (version, name = version) => {
                 log.info(`Installing Minecraft ${version} to ${oml.Direction.gameDir}...`);
                 const info = utils.getVersionInfo(version);
