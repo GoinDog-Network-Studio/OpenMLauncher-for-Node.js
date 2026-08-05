@@ -36,7 +36,7 @@ function open(url) {
 
   exec(command);
 }
-const manifest = (() => {
+const getManifest = () => {
     const vanilla_versions = JSON.parse(request("GET", "https://piston-meta.mojang.com/mc/game/version_manifest.json").getBody());
 
     // Verify ModLoader Support Situation
@@ -86,11 +86,11 @@ const manifest = (() => {
     })
     vanilla_versions['versions'] = versions_list;
     return vanilla_versions;
-})()
+}
 const thr_count = 32;
 const utils = {
     getVersionInfo(ver) {
-        const pkg = manifest['versions'].find(v => v.id == ver)["url"];
+        const pkg = getManifest()['versions'].find(v => v.id == ver)["url"];
         return JSON.parse(request("GET", pkg).getBody());
     },
     getAssetsManifest(ver) {
@@ -280,13 +280,13 @@ const oml = {
     Game: {
         Vanilla: {
             getAllVersions: function () {
-                return manifest['versions'];
+                return getManifest()['versions'];
             },
             LATEST_RELEASE: (() => {
-                return manifest['latest']['release'];
+                return getManifest()['latest']['release'];
             })(),
             LATEST_SNAPSHOT: (() => {
-                return manifest['latest']['snapshot'];
+                return getManifest()['latest']['snapshot'];
             })(),
             Install: (version, name = version) => {
                 log.info(`Installing Minecraft ${version} to ${oml.Direction.gameDir}...`);

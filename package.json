@@ -1,11 +1,12 @@
 {
   "name": "@goindog-network-studio/openmlauncher",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "An Open-Source Library that provide some method about Minecraft launcher.(Without UI, just APIs)",
   "license": "GPL-3.0-only",
   "author": "GoinDog Network Studio",
   "type": "module",
   "main": "index.cjs",
+  "types": "index.d.ts",
   "scripts": {
     "test": "node test.js --gameDir M:/ --configDir M:/.oml"
   },
